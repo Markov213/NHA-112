@@ -76,4 +76,6 @@ st.subheader("Filtered Data Summary")
 st.write(f"Total complaints in filtered data: {filtered_df.shape[0]}")
 
 st.dataframe(filtered_df)
-st.download_button(label="Download Data",file_name="new_data",mime="csv",data=csv)
+
+
+st.download_button(label="Download Data",file_name="new_data",mime="csv",data= df.to_csv(index=False) )
