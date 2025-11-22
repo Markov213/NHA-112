@@ -1,4 +1,14 @@
 import streamlit as st
+import pandas as pd
+import os
+
+# ============================================================
+# ELT NEW DATA
+# ============================================================
+new_data_path = os.path.join(
+    os.path.dirname(__file__),
+    "../../data/new/new_data.csv"
+)
 # ============================================================
 # STREAMLIT CONFIG
 # ============================================================
@@ -51,6 +61,18 @@ if submitted:
     # Store form data
     st.session_state['Citizen'] = [name, email, phone, comment]
     st.toast("Form submitted successfully!", icon="✅")
+
+    # Create a dictionary for new data
+    new_data = {"Name": name, "Email": email,"Phone": phone, "Comment": comment}
+
+    # Then we check that if the file exists, if it does we read it, if not we create a new df to store data
+    if os.path.exists(new_data_path):
+        df = pd.read_csv(new_data_path)
+    else:
+        df = pd.DataFrame(columns=["Name", "Email", "Phone", "Comment"])
+
+    df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
+    df.to_csv(file_path, index=False)
 
     
 # ============================================================
