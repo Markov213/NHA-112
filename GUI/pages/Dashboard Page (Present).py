@@ -3,63 +3,66 @@ import pandas as pd
 import plotly.express as px
 import os
 
-# Load data
-data_path = os.path.join(
-    os.path.dirname(__file__),
-    "../../data/new/new_data.csv"
-)
-df = pd.read_csv(data_path)
 
-st.title("People Complaints Dashboard")
+if os.path.exists(data_path) and os.path.getsize(data_path) > 0:
+    # Load data
+    data_path = os.path.join(
+        os.path.dirname(__file__),
+        "../../data/new/new_data.csv"
+    )
+    df = pd.read_csv(data_path)
 
-# ---------------- Summary ----------------
-st.header("Overview")
-st.metric("Total Complaints", df.shape[0])
-st.metric("Unique Categories", df["category"].nunique())
-st.metric("Unique Subcategories", df["subreddit"].nunique())
+    st.title("People Complaints Dashboard")
 
-# ---------------- Charts ----------------
+    # ---------------- Summary ----------------
+    st.header("Overview")
+    st.metric("Total Complaints", df.shape[0])
+    st.metric("Unique Categories", df["category"].nunique())
+    st.metric("Unique Subcategories", df["subreddit"].nunique())
 
-# by Category
-st.subheader("Distribution by Category")
-fig_pie = px.pie(df, names="category", color_discrete_sequence=px.colors.sequential.RdBu)
-st.plotly_chart(fig_pie)
+    # ---------------- Charts ----------------
 
-# by Subcategory
+    # by Category
+    st.subheader("Distribution by Category")
+    fig_pie = px.pie(df, names="category", color_discrete_sequence=px.colors.sequential.RdBu)
+    st.plotly_chart(fig_pie)
 
-st.subheader("Number of Complaints per Subcategory")
-sub_counts = df["subreddit"].value_counts().reset_index()
-sub_counts.columns = ["subreddit", "count"]
+    # by Subcategory
 
-fig_sub = px.bar(
-    sub_counts,
-    x="subreddit",
-    y="count",
-)
+    st.subheader("Number of Complaints per Subcategory")
+    sub_counts = df["subreddit"].value_counts().reset_index()
+    sub_counts.columns = ["subreddit", "count"]
 
-fig_sub.update_layout(xaxis={'categoryorder':'total descending'})
-st.plotly_chart(fig_sub)
+    fig_sub = px.bar(
+        sub_counts,
+        x="subreddit",
+        y="count",
+    )
 
-# by Problem Type
-st.subheader("Number of Complaints per Problem Type (Horizontal)")
+    fig_sub.update_layout(xaxis={'categoryorder':'total descending'})
+    st.plotly_chart(fig_sub)
 
-problem_counts = df["problem_type"].value_counts().reset_index()
-problem_counts.columns = ["problem_type", "count"]
+    # by Problem Type
+    st.subheader("Number of Complaints per Problem Type (Horizontal)")
 
-fig_bar = px.bar(
-    problem_counts,
-    y="problem_type",    # categories on y-axis
-    x="count",           # values on x-axis
-    orientation='h',     # horizontal bars
-    text='count'         # show counts on bars
-)
+    problem_counts = df["problem_type"].value_counts().reset_index()
+    problem_counts.columns = ["problem_type", "count"]
 
-# Sort bars descending
-fig_bar.update_layout(yaxis={'categoryorder':'total ascending'})  
-# Note: 'total ascending' = largest on top
+    fig_bar = px.bar(
+        problem_counts,
+        y="problem_type",    # categories on y-axis
+        x="count",           # values on x-axis
+        orientation='h',     # horizontal bars
+        text='count'         # show counts on bars
+    )
 
-st.plotly_chart(fig_bar)
+    # Sort bars descending
+    fig_bar.update_layout(yaxis={'categoryorder':'total ascending'})  
+    # Note: 'total ascending' = largest on top
 
+    st.plotly_chart(fig_bar)
+else:
+    st.error("Data file not found or is empty. Please ensure that you went to prediction page first.")
 
 
 
