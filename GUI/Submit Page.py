@@ -39,7 +39,7 @@ st.title("Citizen Issues Submission")
 # ============================================================
 # FORM
 # ============================================================
-with st.form("client_form"):
+with st.form("citizen_form"):
     name = st.text_input("Client Name")
     email = st.text_input("Email")
     phone = st.text_input("Phone Number")
