@@ -144,3 +144,25 @@ if st.session_state.get('Prediction'):
         st.metric(label="Confidence", value=f"{Category_confidence * 100:.2f}%",delta= (f"{Ratio * 100:.2f}"))
 else:
     st.markdown(st.session_state.get('Prediction', "No prediction available. Please submit the form first."))
+
+
+
+new_data = {
+        "category": dl_pred['category']['prediction'],
+        "subreddit": dl_pred['sub_category']['prediction'],
+        "problem_type": predictions['problem_type'][0],
+        "title": comment,
+        "text": comment
+    }
+
+
+new_data_path = os.path.join(
+    os.path.dirname(__file__),
+    "../data/new/new_data.csv"
+)
+
+file_name = "new_data.csv"
+with open(file_name, "w") as file:
+    for data in new_data_path:
+        file.write(f"{new_data}\n")
+        file.flush()

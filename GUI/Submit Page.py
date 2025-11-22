@@ -62,18 +62,7 @@ if submitted:
     st.session_state['Citizen'] = [name, email, phone, comment]
     st.toast("Form submitted successfully!", icon="✅")
 
-    # Create a dictionary for new data
-    new_data = {"Name": name, "Email": email,"Phone": phone, "Comment": comment}
-
-    # Then we check that if the file exists, if it does we read it, if not we create a new df to store data
-    if os.path.exists(new_data_path) and os.path.getsize(new_data_path) > 0:
-        df = pd.read_csv(new_data_path)
-    else:
-        df = pd.DataFrame(columns=["Name", "Email", "Phone", "Comment"])
-
-    df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
-    df.to_csv(new_data_path, index=False)
-
+    
     
 # ============================================================
 # FEEDBACK SECTION
