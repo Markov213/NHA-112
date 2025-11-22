@@ -8,12 +8,10 @@ data_path = os.path.join(
     os.path.dirname(__file__),
     "../../data/interim/reddit_complaints_dataset.csv"
 )
-df = pd.read_csv(data_path)
-
-
 
 if os.path.exists(data_path) and os.path.getsize(data_path) > 0:
 
+    df = pd.read_csv(data_path)
     st.title("People Complaints Dashboard")
 
     # ---------------- Summary ----------------
@@ -80,6 +78,6 @@ if os.path.exists(data_path) and os.path.getsize(data_path) > 0:
     st.write(f"Total complaints in filtered data: {filtered_df.shape[0]}")
 
     st.dataframe(filtered_df)
-    
+
 else:
     st.error("Data file not found or is empty. Please ensure that you went to prediction page first.")
