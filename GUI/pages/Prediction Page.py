@@ -25,6 +25,90 @@ if st.session_state.get('Citizen'):
             st.write(f"**Phone:** {phone}")
         st.write(f"**Comment:** {comment}")
 
+# -------------------------
+# MODEL PATH (FIXED FOR DEPLOYMENT)
+# -------------------------
+
+MODEL_DIR = os.path.join(PROJECT_ROOT, "models/my_multi_task_models_afterCleaning_logostic")
+
+tasks = ['problem_type', 'category']
+
+try:
+    # Load model
+    model = MultiTaskTextClassifier(
+        label_columns=tasks,
+        model_dir=MODEL_DIR,
+        model_type='logreg',
+        use_hyperparameter_tuning=True
+    )
+
+    # Predict
+    new_texts = [comment]
+    predictions = model.predict(new_texts)
+
+    # Display results
+    st.subheader("Predicted Classification")
+    st.write(f"**Problem Type:** {predictions['problem_type'][0]}")
+    st.write(f"**Category:** {predictions['category'][0]}")
+
+    # Store prediction for another page if needed
+    st.session_state['Prediction'] = [
+        predictions['problem_type'][0],
+        predictions['category'][0]
+    ]
+
+except Exception as e:
+    st.error("⚠️ Model failed to load. Make sure the 'models/' folder exists in your repo.")
+    st.error(str(e))
+
+
+    
+# ============================================================
+# DEEP LEARNING MODEL PREDICTION
+# ============================================================
+st.subheader("Deep Learning (BERT) Prediction")
+    
+# ---- MODEL PATH ----
+DL_MODEL_PATH = os.path.join(PROJECT_ROOT, "models/best_cv_classifier.pth")
+    
+# ---- GOOGLE DRIVE DIRECT FILE LINK (FIX THIS) ----
+model_id = '1BHpawVMowc8D8yJAeFde6FS6Zq62OE07'
+DL_MODEL_URL = f"https://drive.google.com/uc?id={model_id}"   # <-- replace with real ID
+    
+# ---- DOWNLOAD MODEL IF MISSING ----
+if not os.path.exists(DL_MODEL_PATH):
+    st.info("Downloading BERT Deep Learning model... this may take 10–20 seconds.")
+    gdown.download(DL_MODEL_URL, DL_MODEL_PATH, quiet=False)
+    
+# ---- LOAD MODEL (cached so it loads only once) ----
+@st.cache_resource
+def load_dl_model():
+    return MultiOutputClassificationModel(
+        model_name='distilbert-base-uncased',
+        model_path=DL_MODEL_PATH
+    )
+    
+dl_model = load_dl_model()
+    
+# ---- RUN PREDICTION ----
+try:
+    dl_pred = dl_model.predict(comment)
+    
+    st.write("### Deep Learning Output")
+    st.write(f"**Category:** {dl_pred['category']['prediction']} (Conf: {dl_pred['category']['confidence']:.2f})")
+    st.write(f"**Sub-Category:** {dl_pred['sub_category']['prediction']} (Conf: {dl_pred['sub_category']['confidence']:.2f})")
+    
+    st.write("**Top Category Predictions:**")
+    st.write(dl_pred['category']['top_predictions'])
+    
+    st.write("**Top Sub-Category Predictions:**")
+    st.write(dl_pred['sub_category']['top_predictions'])
+    
+except Exception as e:
+    st.error("⚠️ Deep Learning model failed to run.")
+    st.error(str(e))
+
+
 
 if st.session_state.get('Prediction'):
     st.markdown(f"## Prediction Results")
