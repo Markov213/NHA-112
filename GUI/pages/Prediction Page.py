@@ -148,6 +148,11 @@ else:
 
 
 
+# ============================================================
+# ELT NEW DATA
+# ============================================================
+
+
 new_data = {
         "category": dl_pred['category']['prediction'],
         "subreddit": dl_pred['sub_category']['prediction'],
@@ -168,3 +173,4 @@ else:
     df = pd.DataFrame(columns=["category", "subreddit", "problem_type", "title", "text"])
 df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
 df.to_csv(new_data_path, index=False)
+
