@@ -125,7 +125,9 @@ except Exception as e:
     st.error("⚠️ Deep Learning model failed to run.")
     st.error(str(e))
 
-
+Category_confidence = dl_pred['category']['confidence']
+SubCategory_confidence = dl_pred['sub_category']['confidence']
+Average_confidence = (Category_confidence + SubCategory_confidence) / 2
 
 if st.session_state.get('Prediction'):
     st.markdown(f"## Prediction Results")
@@ -137,7 +139,7 @@ if st.session_state.get('Prediction'):
         st.markdown(f"#### {dl_pred['category']['prediction']}")
         st.markdown(f"#### {dl_pred['sub_category']['prediction']}")
     with col3:
-        Average_confidence = (dl_pred['category']['confidence'] + dl_pred['sub_category']['confidence']) / 2
-        st.metric(label="Confidence", value=f"{Average_confidence * 100:.2f}%",delta= (dl_pred['category']['confidence'] - dl_pred['sub_category']['confidence']) / Average_confidence)
+        
+        st.metric(label="Confidence", value=f"{Average_confidence * 100:.2f}%",delta= (f"{(Category_confidence - SubCategory_confidence) / Average_confidence:.2f}"))
 else:
     st.markdown(st.session_state.get('Prediction', "No prediction available. Please submit the form first."))
