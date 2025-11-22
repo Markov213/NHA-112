@@ -1,4 +1,21 @@
 import streamlit as st
+import os
+import sys
+import gdown
+import torch
+# ============================================================
+# FIX PYTHON PATH SO IMPORTS WORK FROM gui/main/
+# ============================================================
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, "../../"))
+sys.path.append(PROJECT_ROOT)
+
+# ============================================================
+# IMPORT YOUR PROJECT MODULES
+# ============================================================
+from dataEngineer.modeling.MLmodel2 import MultiTaskTextClassifier
+from dataEngineer.pipeLine import *
+from dataEngineer.modeling.Deeplearning2 import MultiOutputClassificationModel
 
 
 st.set_page_config(page_title="Prediction Page", layout="wide",page_icon="📈")
