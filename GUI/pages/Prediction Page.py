@@ -158,7 +158,7 @@ new_data = {
 
 new_data_path = os.path.join(
     os.path.dirname(__file__),
-    "../data/new/new_data.csv"
+    "../../data/new/new_data.csv"
 )
 
 file_name = "new_data.csv"
