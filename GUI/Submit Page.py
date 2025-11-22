@@ -72,7 +72,7 @@ if submitted:
         df = pd.DataFrame(columns=["Name", "Email", "Phone", "Comment"])
 
     df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
-    df.to_csv(file_path, index=False)
+    df.to_csv(new_data_path, index=False)
 
     
 # ============================================================
