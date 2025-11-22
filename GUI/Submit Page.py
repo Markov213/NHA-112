@@ -7,7 +7,7 @@ import os
 # ============================================================
 new_data_path = os.path.join(
     os.path.dirname(__file__),
-    "../../data/new/new_data.csv"
+    "../data/new/new_data.csv"
 )
 # ============================================================
 # STREAMLIT CONFIG
