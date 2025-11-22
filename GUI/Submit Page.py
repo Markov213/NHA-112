@@ -66,7 +66,7 @@ if submitted:
     new_data = {"Name": name, "Email": email,"Phone": phone, "Comment": comment}
 
     # Then we check that if the file exists, if it does we read it, if not we create a new df to store data
-    if os.path.exists(new_data_path):
+    if os.path.exists(new_data_path) and os.path.getsize(data_path) > 0:
         df = pd.read_csv(new_data_path)
     else:
         df = pd.DataFrame(columns=["Name", "Email", "Phone", "Comment"])
