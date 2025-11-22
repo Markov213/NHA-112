@@ -61,24 +61,26 @@ if os.path.exists(data_path) and os.path.getsize(data_path) > 0:
     # Note: 'total ascending' = largest on top
 
     st.plotly_chart(fig_bar)
+
+
+
+
+
+    # ---------------- Filterable Data ----------------
+    st.header("View and Filter Complaints")
+    category_filter = st.multiselect("Filter by Category:", options=df["category"].unique())
+    filtered_df = df[df["category"].isin(category_filter)] if category_filter else df.copy()
+
+    subcategory_filter = st.multiselect("Filter by Subcategory:", options=filtered_df["subreddit"].unique())
+    filtered_df = filtered_df[filtered_df["subreddit"].isin(subcategory_filter)] if subcategory_filter else filtered_df
+
+    st.subheader("Filtered Data Summary")
+    st.write(f"Total complaints in filtered data: {filtered_df.shape[0]}")
+
+    st.dataframe(filtered_df)
+
+
+    st.download_button(label="Download Data",file_name="new_data.csv",mime="csv",data= df.to_csv(index=False) )
+
 else:
     st.error("Data file not found or is empty. Please ensure that you went to prediction page first.")
-
-
-
-
-# ---------------- Filterable Data ----------------
-st.header("View and Filter Complaints")
-category_filter = st.multiselect("Filter by Category:", options=df["category"].unique())
-filtered_df = df[df["category"].isin(category_filter)] if category_filter else df.copy()
-
-subcategory_filter = st.multiselect("Filter by Subcategory:", options=filtered_df["subreddit"].unique())
-filtered_df = filtered_df[filtered_df["subreddit"].isin(subcategory_filter)] if subcategory_filter else filtered_df
-
-st.subheader("Filtered Data Summary")
-st.write(f"Total complaints in filtered data: {filtered_df.shape[0]}")
-
-st.dataframe(filtered_df)
-
-
-st.download_button(label="Download Data",file_name="new_data.csv",mime="csv",data= df.to_csv(index=False) )
