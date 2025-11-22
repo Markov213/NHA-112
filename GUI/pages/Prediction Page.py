@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 import os
 import sys
 import gdown
@@ -161,8 +162,9 @@ new_data_path = os.path.join(
     "../../data/new/new_data.csv"
 )
 
-file_name = "new_data.csv"
-with open(file_name, "w") as file:
-    for data in new_data_path:
-        file.write(f"{new_data}\n")
-        file.flush()
+if os.path.exists(new_data_path) and os.path.getsize(new_data_path) > 0:
+    df = pd.read_csv(new_data_path)
+else:
+    df = pd.DataFrame(columns=["category", "subreddit", "problem_type", "title", "text"])
+df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
+df.to_csv(new_data_path, index=False)
