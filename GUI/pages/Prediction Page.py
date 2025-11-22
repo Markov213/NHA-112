@@ -134,9 +134,10 @@ if st.session_state.get('Prediction'):
         st.markdown(f"#### Category:",)
         st.markdown(f"#### Sub-Category:")
     with col2:
-        st.markdown(f"#### {st.session_state['Prediction'][0].lower()}")
-        st.markdown(f"#### {st.session_state['Prediction'][1].lower()}")
+        st.markdown(f"#### {dl_pred['category']['prediction']}")
+        st.markdown(f"#### {dl_pred['sub_category']['prediction']}")
     with col3:
-        st.metric(label="Confidence", value=f"{st.session_state['Prediction'][2]:.2f}%",delta="4%")
+        Average_confidence = (dl_pred['category']['confidence']:.2f + dl_pred['sub_category']['confidence']:.2f) / 2
+        st.metric(label="Confidence", value=f"{Average_confidence}%",delta="4%")
 else:
     st.markdown(st.session_state.get('Prediction', "No prediction available. Please submit the form first."))
