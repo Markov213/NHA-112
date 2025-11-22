@@ -3,13 +3,13 @@ import pandas as pd
 import plotly.express as px
 import os
 
+# Load data
+data_path = os.path.join(
+    os.path.dirname(__file__),
+    "../../data/new/new_data.csv"
+)
 
 if os.path.exists(data_path) and os.path.getsize(data_path) > 0:
-    # Load data
-    data_path = os.path.join(
-        os.path.dirname(__file__),
-        "../../data/new/new_data.csv"
-    )
     df = pd.read_csv(data_path)
 
     st.title("People Complaints Dashboard")
