@@ -3,6 +3,13 @@ import pandas as pd
 import plotly.express as px
 import os
 
+
+# Reset Citizen state
+st.session_state['Citizen'][0] = None
+st.session_state['Citizen'][1] = None
+st.session_state['Citizen'][2] = None
+st.session_state['Citizen'][3] = None
+
 # Load data
 data_path = os.path.join(
     os.path.dirname(__file__),
