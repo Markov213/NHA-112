@@ -11,7 +11,7 @@ data_path = os.path.join(
 
 if os.path.exists(data_path) and os.path.getsize(data_path) > 0:
     # Reset Citizen state
-    st.session_state.get('Citizen') = 0
+    st.session_state['Citizen'] = None
 
     df = pd.read_csv(data_path)
 
