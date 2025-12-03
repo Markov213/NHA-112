@@ -46,6 +46,44 @@ if st.session_state.get('Citizen'):
     # -------------------------
     # MODEL PATH (FIXED FOR DEPLOYMENT)
     # -------------------------
+    
+    # LOGISTIC MODEL PREDICTION
+    st.subheader("Logistic Regression Prediction")
+    MODEL_DIR = os.path.join(PROJECT_ROOT, "models/my_multi_task_models_afterCleaning_logostic")
+
+    tasks = ['problem_type', 'category']
+
+    try:
+        # Load model
+        model = MultiTaskTextClassifier(
+            label_columns=tasks,
+            model_dir=MODEL_DIR,
+            model_type='logreg',
+            use_hyperparameter_tuning=True
+        )
+
+        # Predict
+        new_texts = [comment]
+        predictions = model.predict(new_texts)
+
+        # Display results
+        st.subheader("Predicted Classification")
+        st.write(f"**Problem Type:** {predictions['problem_type'][0]}")
+        st.write(f"**Category:** {predictions['category'][0]}")
+
+        # Store prediction for another page if needed
+        st.session_state['Prediction'] = [
+            predictions['problem_type'][0],
+            predictions['category'][0]
+        ]
+
+    except Exception as e:
+        st.error("⚠️ Model failed to load. Make sure the 'models/' folder exists in your repo.")
+        st.error(str(e))
+
+    # ============================================================
+    # SVM MODEL PREDICTION
+    st.subheader("Support Vector Machine (SVM) Prediction")
 
     MODEL_DIR = os.path.join(PROJECT_ROOT, "models/my_multi_task_models_afterCleaning_svm")
 
