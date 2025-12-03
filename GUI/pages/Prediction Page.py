@@ -67,7 +67,7 @@ if st.session_state.get('Citizen'):
         # Display results
         st.subheader("Predicted Classification")
         st.write(f"**Problem Type:** {predictions['problem_type'][0]}")
-        st.write(f"**Category:** {predictions['category'][1]}")
+        st.write(f"**Category:** {predictions['category'][0]}")
 
         # Store prediction for another page if needed
         st.session_state['Prediction'] = [
