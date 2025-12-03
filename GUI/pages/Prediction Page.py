@@ -56,7 +56,7 @@ if st.session_state.get('Citizen'):
         model = MultiTaskTextClassifier(
             label_columns=tasks,
             model_dir=MODEL_DIR,
-            model_type='logreg',
+            model_type='svm',
             use_hyperparameter_tuning=True
         )
 
@@ -67,7 +67,7 @@ if st.session_state.get('Citizen'):
         # Display results
         st.subheader("Predicted Classification")
         st.write(f"**Problem Type:** {predictions['problem_type'][0]}")
-        st.write(f"**Category:** {predictions['category'][0]}")
+        st.write(f"**Category:** {predictions['category'][1]}")
 
         # Store prediction for another page if needed
         st.session_state['Prediction'] = [
@@ -116,16 +116,13 @@ if st.session_state.get('Citizen'):
         st.write(f"**Category:** {dl_pred['category']['prediction']} (Conf: {dl_pred['category']['confidence']:.2f})")
         st.write(f"**Sub-Category:** {dl_pred['sub_category']['prediction']} (Conf: {dl_pred['sub_category']['confidence']:.2f})")
 
-        st.write("**Top Category Predictions:**")
-        st.write(dl_pred['category']['top_predictions'])
-
-        st.write("**Top Sub-Category Predictions:**")
-        st.write(dl_pred['sub_category']['top_predictions'])
-
     except Exception as e:
         st.error("⚠️ Deep Learning model failed to run.")
         st.error(str(e))
 
+    MainPrediction = {"Category":predictions['problem_type'][0],
+                        "Sub-Category":predictions['category'][0]}
+    
     Category_confidence = dl_pred['category']['confidence']
     SubCategory_confidence = dl_pred['sub_category']['confidence']
     Average_confidence = (Category_confidence + SubCategory_confidence) / 2
@@ -138,8 +135,8 @@ if st.session_state.get('Citizen'):
             st.markdown(f"#### Category:",)
             st.markdown(f"#### Sub-Category:")
         with col2:
-            st.markdown(f"#### {dl_pred['category']['prediction']}")
-            st.markdown(f"#### {dl_pred['sub_category']['prediction']}")
+            st.markdown(f"#### {MainPrediction['Category']}")
+            st.markdown(f"#### {MainPrediction['Sub-Category']}")
         with col3:
 
             st.metric(label="Confidence", value=f"{Category_confidence * 100:.2f}%",delta= (f"{Ratio * 100:.2f}"))
@@ -154,8 +151,8 @@ if st.session_state.get('Citizen'):
 
 
     new_data = {
-            "category": dl_pred['category']['prediction'],
-            "subreddit": dl_pred['sub_category']['prediction'],
+            "category": MainPrediction['Category'],
+            "subreddit": MainPrediction['Sub-Category'],
             "problem_type": predictions['problem_type'][0],
             "title": comment,
             "text": comment
