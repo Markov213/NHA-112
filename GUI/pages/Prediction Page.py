@@ -47,7 +47,7 @@ if st.session_state.get('Citizen'):
     # MODEL PATH (FIXED FOR DEPLOYMENT)
     # -------------------------
 
-    MODEL_DIR = os.path.join(PROJECT_ROOT, "models/my_multi_task_models_afterCleaning_logostic")
+    MODEL_DIR = os.path.join(PROJECT_ROOT, "models/my_multi_task_models_afterCleaning_svm")
 
     tasks = ['problem_type', 'category']
 
