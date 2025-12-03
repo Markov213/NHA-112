@@ -10,6 +10,12 @@ data_path = os.path.join(
 )
 
 if os.path.exists(data_path) and os.path.getsize(data_path) > 0:
+    # Reset Citizen state
+    st.session_state['Citizen'][0] = None
+    st.session_state['Citizen'][1] = None
+    st.session_state['Citizen'][2] = None
+    st.session_state['Citizen'][3] = None
+    
     df = pd.read_csv(data_path)
 
     st.title("People Complaints Dashboard")
