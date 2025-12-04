@@ -177,7 +177,7 @@ if st.session_state.get('Citizen'):
             st.markdown(f"#### {MainPrediction['Sub-Category']}")
         with col3:
 
-            st.metric(label="Confidence", value=f"{Category_confidence * 100:.2f}%",delta= (f"{Ratio * 100:.2f}"))
+            st.metric(label="Confidence", value=f"{Category_confidence * 100:.2f}%")
     else:
         st.markdown(st.session_state.get('Prediction', "No prediction available. Please submit the form first."))
 
