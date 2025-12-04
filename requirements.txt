@@ -96,4 +96,5 @@ loguru
 nltk
 gdown
 gspread
+oauth2client
 
