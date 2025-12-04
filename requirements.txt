@@ -95,4 +95,5 @@ deep_translator
 loguru
 nltk
 gdown
+gspread
 
