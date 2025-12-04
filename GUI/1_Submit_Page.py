@@ -13,28 +13,28 @@ st.set_page_config(
     page_icon="📝"
 )
 
-# ============================================================
-# GOOGLE SHEETS AUTHENTICATION (PORTABLE)
-# ============================================================
-scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-
-# Path relative to this script
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-creds_path = os.path.join(BASE_DIR, "credentials.json")  # Put your credentials.json here
-
-try:
-    creds = ServiceAccountCredentials.from_json_keyfile_name(creds_path, scope)
-    client = gspread.authorize(creds)
-
-    # Open the Google Sheet
-    SHEET_NAME = "citizen_issues"  # Change if needed
-    sheet = client.open(SHEET_NAME).sheet1
-
-except Exception as e:
-    st.error("❌ Google Sheets authentication failed. Check your credentials.json or API permissions.")
-    st.error(str(e))
-    st.stop()  # Stop execution if credentials fail
-
+## ============================================================
+## GOOGLE SHEETS AUTHENTICATION (PORTABLE)
+## ============================================================
+#scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+#
+## Path relative to this script
+#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+#creds_path = os.path.join(BASE_DIR, "credentials.json")  # Put your credentials.json here
+#
+#try:
+#    creds = ServiceAccountCredentials.from_json_keyfile_name(creds_path, scope)
+#    client = gspread.authorize(creds)
+#
+#    # Open the Google Sheet
+#    SHEET_NAME = "citizen_issues"  # Change if needed
+#    sheet = client.open(SHEET_NAME).sheet1
+#
+#except Exception as e:
+#    st.error("❌ Google Sheets authentication failed. Check your credentials.json or API permissions.")
+#    st.error(str(e))
+#    st.stop()  # Stop execution if credentials fail
+#
 # ============================================================
 # BACKGROUND CSS
 # ============================================================
