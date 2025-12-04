@@ -208,6 +208,7 @@ if st.session_state.get('Citizen'):
         df = pd.DataFrame(columns=["category", "subreddit", "problem_type", "title", "text"])
     df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
     df.to_csv(new_data_path, index=False)
+    st.session_state['Citizen'] = None  # Clear citizen data after processing
 
 else:
     st.warning("Please fill out the citizen form on the main page before making a prediction.")   
