@@ -173,8 +173,8 @@ if st.session_state.get('Citizen'):
             st.markdown(f"#### Category:",)
             st.markdown(f"#### Sub-Category:")
         with col2:
-            st.markdown(f"#### {MainPrediction['Category']}")
             st.markdown(f"#### {MainPrediction['Sub-Category']}")
+            st.markdown(f"#### {MainPrediction['Category']}")
         with col3:
 
             st.metric(label="Confidence", value=f"{Category_confidence * 100:.2f}%")
@@ -189,8 +189,8 @@ if st.session_state.get('Citizen'):
 
 
     new_data = {
-            "category": MainPrediction['Category'],
-            "subreddit": MainPrediction['Sub-Category'],
+            "category": MainPrediction['Sub-Category'],
+            "subreddit": MainPrediction['Category'],
             "problem_type": predictions['problem_type'][0],
             "title": comment,
             "text": comment
